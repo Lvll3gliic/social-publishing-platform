@@ -1,6 +1,12 @@
 <x-guest-layout>
     <form method="POST" action="{{ route('register') }}">
         @csrf
+        <div class="p-5">
+            <h1 class="block font-medium text-lg text-gray-700 text-center pb-2">Register</h1>
+            <p class="block font-medium text-sm text-gray-700 text-center">
+                Enter your information to create an account
+            </p>
+        </div>
 
         <!-- Name -->
         <div>
@@ -39,14 +45,22 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
+        <div class="flex items-center justify-center mt-4">
             <x-primary-button class="ms-4">
                 {{ __('Register') }}
             </x-primary-button>
+        </div>
+        <div class="p-3">
+            <p class="font-medium text-sm text-gray-700 text-center">
+                Already have an account?
+                <a
+                    href="{{ route('login') }}"
+                    class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md
+                   focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                >
+                    Sign in
+                </a>
+            </p>
         </div>
     </form>
 </x-guest-layout>

@@ -5,21 +5,32 @@
             <div class="flex">
                 <!-- Logo -->
                 <div class="shrink-0 flex items-center">
-                    <a href="{{ route('dashboard') }}">
+                    <a href="{{ route('posts.index') }}">
                         <x-application-logo class="block h-9 w-auto fill-current text-gray-800" />
                     </a>
                 </div>
 
                 <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                <div class="hidden space-x-3 sm:-my-px sm:ms-10 sm:flex">
+                    <x-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index') && request()->query('category') === null">
+                        {{ __('Feed') }}
                     </x-nav-link>
+                    @foreach($categories as $category)
+                        <x-nav-link
+                            :href="route('posts.index', ['category' => $category->name])"
+                            :active="request()->routeIs('posts.index') && request()->query('category') == $category->name"
+                        >
+                            {{ $category->name }}
+                        </x-nav-link>
+                    @endforeach
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                <div class="flex items-center justify-end m-2">
+                    <x-primary-button href="{{ route('posts.create') }}">Write</x-primary-button>
+                </div>
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150">
@@ -34,8 +45,11 @@
                     </x-slot>
 
                     <x-slot name="content">
+                        <x-dropdown-link :href="route('profile.show', ['user' => Auth::user()->id])">
+                           My profile
+                        </x-dropdown-link>
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Profile') }}
+                            Edit profile
                         </x-dropdown-link>
 
                         <!-- Authentication -->
@@ -45,7 +59,7 @@
                             <x-dropdown-link :href="route('logout')"
                                     onclick="event.preventDefault();
                                                 this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                               Logout
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -66,9 +80,22 @@
 
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+        <div class="px-4 pb-3 space-y-1">
+            <x-responsive-nav-link :href="route('posts.index')" :active="request()->routeIs('posts.index') && request()->query('category') === null">
+               Feed
+            </x-responsive-nav-link>
+            @foreach($categories as $category)
+                <x-responsive-nav-link
+                    :href="route('posts.index', ['category' => $category->name])"
+                    :active="request()->routeIs('posts.index') && request()->query('category') == $category->name"
+                >
+                    {{ $category->name }}
+                </x-responsive-nav-link>
+            @endforeach
+        </div>
+        <div class="pt-4 pb-4 border-t border-gray-200">
+            <x-responsive-nav-link :href="route('posts.create')">
+                Post new post
             </x-responsive-nav-link>
         </div>
 

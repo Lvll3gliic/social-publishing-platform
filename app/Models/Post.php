@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -14,7 +16,7 @@ class Post extends Model
 
     protected $fillable = [
         'title',
-        'description',
+        'content',
         'author_id'
     ];
 
@@ -27,6 +29,7 @@ class Post extends Model
     {
         return $this->belongsTo(User::class, 'author_id');
     }
+
     public function categories(): BelongsToMany
     {
         return $this->belongsToMany(Category::class, 'category_post', 'post_id', 'category_id');
