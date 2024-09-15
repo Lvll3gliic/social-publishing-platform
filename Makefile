@@ -15,8 +15,8 @@ seed:
 shell:
 	sudo $(SAIL) shell
 
-admin-shell:
-	sudo $(SAIL) admin-shell
+root-shell:
+	sudo $(SAIL) root-shell
 
 clear-cache:
 	sudo $(SAIL) php artisan cache:clear
@@ -28,8 +28,14 @@ test:
 	sudo $(SAIL) php artisan test
 
 fix-permissions:
-	sudo ./vendor/bin/sail root-shell -c 'chown -R sail:sail /var/www/html && chmod -R 755 /var/www/html'
+	sudo $(SAIL) root-shell -c 'chown -R sail:sail /var/www/html && chmod -R 755 /var/www/html'
 
+key-generate:
+	sudo $(SAIL) php artisan key:generate
+
+fe-start:
+	sudo $(SAIL) npm install
+	sudo $(SAIL) npm run dev
 
 
 help:
@@ -42,4 +48,10 @@ help:
 	@echo "  root-shell		- Opens an interactive shell in the Laravel Sail container as root"
 	@echo "  clear-cache   	- clears cache"
 	@echo "  test   		- run tests"
+	@echo "  key-generate   - generate application key"
+	@echo "  fe-start   	- start development server (install dependencies)"
+
+
+
+
 

@@ -29,7 +29,7 @@
             </div>
 
             <ul class="mt-4">
-                @if($post->comments->empty())
+                @if($post->comments->count() === 0)
                     <p class="text-center text-gray-500">No comments available</p>
                 @else
                     @foreach ($post->comments as $comment)
@@ -54,7 +54,7 @@
             </ul>
 
             @auth
-                <form action="{{ route('comments.store', $post) }}" method="POST" class="mt-4">
+                <form action="{{ route('posts.comments.store', $post) }}" method="POST" class="mt-4">
                     @csrf
                     <x-input-label value="Add your comment"/>
                     <div>
